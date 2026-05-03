@@ -1,3 +1,10 @@
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![Google Gemini](https://img.shields.io/badge/Gemini%20AI-4285F4?logo=google&logoColor=white)
+
 # Resume Crafter
 
 A web application for building and generating professional resumes tailored to each job you apply for.
