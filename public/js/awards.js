@@ -1,3 +1,4 @@
+// loads and renders all awards in a table
 function loadAwards(){
     fetch("/api/awards")
     .then(result => {
@@ -26,6 +27,7 @@ function loadAwards(){
     })
 }
 
+// adds a new award to the database
 document.querySelector('#btnAddAward').addEventListener('click',function(){
     let strAwardName = document.querySelector('#txtAwardName').value.trim()
     let strIssuer = document.querySelector('#txtAwardIssuer').value.trim()
@@ -57,6 +59,7 @@ document.querySelector('#btnAddAward').addEventListener('click',function(){
     })
 })
 
+// deletes an award
 function deleteAward(strAwardID){
     fetch("/api/awards/" + strAwardID,{method:'DELETE'})
     .then(result => {

@@ -1,3 +1,4 @@
+// handles navigation between sections
 document.querySelectorAll('[data-section]').forEach(function(link){
     link.addEventListener('click',function(e){
         e.preventDefault()
@@ -21,6 +22,7 @@ document.querySelectorAll('[data-section]').forEach(function(link){
     })
 })
 
+// shows credits popup with libraries used
 document.querySelector('#btnCredits').addEventListener('click',function(e){
     e.preventDefault()
     Swal.fire({
@@ -37,4 +39,5 @@ document.querySelector('#btnCredits').addEventListener('click',function(e){
     })
 })
 
+// loads profile on initial page load
 loadProfile()

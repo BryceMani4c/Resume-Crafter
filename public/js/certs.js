@@ -1,3 +1,4 @@
+// loads and renders all certifications in a table
 function loadCerts(){
     fetch("/api/certifications")
     .then(result => {
@@ -26,6 +27,7 @@ function loadCerts(){
     })
 }
 
+// adds a new certification to the database
 document.querySelector('#btnAddCert').addEventListener('click',function(){
     let strCertName = document.querySelector('#txtCertName').value.trim()
     let strIssuer = document.querySelector('#txtCertIssuer').value.trim()
@@ -57,6 +59,7 @@ document.querySelector('#btnAddCert').addEventListener('click',function(){
     })
 })
 
+// deletes a certification
 function deleteCert(strCertID){
     fetch("/api/certifications/" + strCertID,{method:'DELETE'})
     .then(result => {

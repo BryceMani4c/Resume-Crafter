@@ -1,3 +1,4 @@
+// loads user profile data into form fields
 function loadProfile(){
     fetch("/api/userinfo")
     .then(result => {
@@ -18,6 +19,7 @@ function loadProfile(){
     })
 }
 
+// saves profile info to database
 document.querySelector('#btnSaveProfile').addEventListener('click',function(){
     let strFirstName = document.querySelector('#txtFirstName').value.trim()
     let strLastName = document.querySelector('#txtLastName').value.trim()
@@ -61,6 +63,7 @@ document.querySelector('#btnSaveProfile').addEventListener('click',function(){
     }
 })
 
+// sends summary to gemini for ai improvement suggestion
 document.querySelector('#btnAISummary').addEventListener('click',function(){
     let strSummary = document.querySelector('#txtSummary').value.trim()
     if(strSummary.length < 1){

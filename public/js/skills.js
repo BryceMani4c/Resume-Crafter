@@ -1,3 +1,4 @@
+// loads and renders all skills in a table
 function loadSkills(){
     fetch("/api/skills")
     .then(result => {
@@ -25,6 +26,7 @@ function loadSkills(){
     })
 }
 
+// adds a new skill to the database
 document.querySelector('#btnAddSkill').addEventListener('click',function(){
     let strCategory = document.querySelector('#txtSkillCategory').value.trim()
     let strSkillName = document.querySelector('#txtSkillName').value.trim()
@@ -54,6 +56,7 @@ document.querySelector('#btnAddSkill').addEventListener('click',function(){
     })
 })
 
+// deletes a skill
 function deleteSkill(strSkillID){
     fetch("/api/skills/" + strSkillID,{method:'DELETE'})
     .then(result => {

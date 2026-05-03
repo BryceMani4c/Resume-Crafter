@@ -1,5 +1,6 @@
 let objResumeData = null
 
+// loads all resume data and renders checkboxes
 function loadResumeOptions(){
     fetch("/api/resume")
     .then(result => {
@@ -16,6 +17,7 @@ function loadResumeOptions(){
     })
 }
 
+// renders job checkboxes for resume selection
 function renderJobCheckboxes(){
     let divJobs = document.querySelector('#divResumeJobs')
     divJobs.innerHTML = ''
@@ -35,6 +37,7 @@ function renderJobCheckboxes(){
     }
 }
 
+// renders skill checkboxes for resume selection
 function renderSkillCheckboxes(){
     let divSkills = document.querySelector('#divResumeSkills')
     divSkills.innerHTML = ''
@@ -54,6 +57,7 @@ function renderSkillCheckboxes(){
     }
 }
 
+// renders certification checkboxes for resume selection
 function renderCertCheckboxes(){
     let divCerts = document.querySelector('#divResumeCerts')
     divCerts.innerHTML = ''
@@ -73,6 +77,7 @@ function renderCertCheckboxes(){
     }
 }
 
+// renders award checkboxes for resume selection
 function renderAwardCheckboxes(){
     let divAwards = document.querySelector('#divResumeAwards')
     divAwards.innerHTML = ''
@@ -92,6 +97,7 @@ function renderAwardCheckboxes(){
     }
 }
 
+// builds the resume html from selected items
 document.querySelector('#btnGenerateResume').addEventListener('click',function(){
     let arrSelectedJobs = []
     document.querySelectorAll('.chk-job:checked').forEach(function(chk){
@@ -202,6 +208,7 @@ document.querySelector('#btnGenerateResume').addEventListener('click',function()
     document.querySelector('#divResumePreview').classList.remove('d-none')
 })
 
+// opens print dialog to save as pdf
 document.querySelector('#btnPrintResume').addEventListener('click',function(){
     window.print()
 })

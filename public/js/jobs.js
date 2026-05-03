@@ -1,3 +1,4 @@
+// loads and renders all job cards
 function loadJobs(){
     fetch("/api/jobs")
     .then(result => {
@@ -39,6 +40,7 @@ function loadJobs(){
     })
 }
 
+// loads responsibility details for a specific job
 function loadJobDetails(strJobID){
     fetch("/api/jobdetails/" + strJobID)
     .then(result => {
@@ -63,6 +65,7 @@ function loadJobDetails(strJobID){
     })
 }
 
+// adds a new job to the database
 document.querySelector('#btnAddJob').addEventListener('click',function(){
     let strCompany = document.querySelector('#txtCompany').value.trim()
     let strTitle = document.querySelector('#txtJobTitle').value.trim()
@@ -113,6 +116,7 @@ document.querySelector('#btnAddJob').addEventListener('click',function(){
     }
 })
 
+// deletes a job with confirmation
 function deleteJob(strJobID){
     Swal.fire({
         title:"Are you sure?",
@@ -135,6 +139,7 @@ function deleteJob(strJobID){
     })
 }
 
+// adds a responsibility detail to a job
 function addDetail(strJobID){
     let txtDetail = document.querySelector('#txtDetail_' + strJobID)
     let strDescription = txtDetail.value.trim()
@@ -160,6 +165,7 @@ function addDetail(strJobID){
     })
 }
 
+// deletes a job detail
 function deleteDetail(strDetailID,strJobID){
     fetch("/api/jobdetails/" + strDetailID,{method:'DELETE'})
     .then(result => {
@@ -172,6 +178,7 @@ function deleteDetail(strDetailID,strJobID){
     })
 }
 
+// sends job detail to gemini for ai improvement suggestion
 function aiDetail(strJobID){
     let txtDetail = document.querySelector('#txtDetail_' + strJobID)
     let strText = txtDetail.value.trim()

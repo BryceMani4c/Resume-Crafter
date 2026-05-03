@@ -1,3 +1,4 @@
+// loads saved gemini api key into settings form
 function loadSettings(){
     fetch("/api/settings/gemini_api_key")
     .then(result => {
@@ -10,6 +11,7 @@ function loadSettings(){
     })
 }
 
+// saves gemini api key to database
 document.querySelector('#btnSaveSettings').addEventListener('click',function(){
     let strKey = document.querySelector('#txtGeminiKey').value.trim()
 

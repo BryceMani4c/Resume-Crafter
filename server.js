@@ -1,3 +1,4 @@
+// imports and configuration
 require('dotenv').config()
 const express = require('express')
 const sqlite3 = require('sqlite3').verbose()
@@ -8,6 +9,7 @@ var app = express()
 app.use(express.json())
 app.use(express.static('public'))
 
+// connects to database
 const dbResume = new sqlite3.Database('resume.db',(err) => {
     if(err){
         console.error("Error opening database:",err.message)
@@ -16,6 +18,7 @@ const dbResume = new sqlite3.Database('resume.db',(err) => {
     }
 })
 
+// creates tables if they don't exist
 dbResume.serialize(function(){
     dbResume.run(`CREATE TABLE IF NOT EXISTS tblUserInfo (
         UserID TEXT PRIMARY KEY,FirstName TEXT,LastName TEXT,Email TEXT,Phone TEXT,City TEXT,State TEXT,LinkedIn TEXT,Summary TEXT)`)
@@ -33,10 +36,12 @@ dbResume.serialize(function(){
         SettingKey TEXT PRIMARY KEY,SettingValue TEXT)`)
 })
 
+// starts server
 app.listen(HTTP_PORT,() => {
     console.log('Listening on',HTTP_PORT)
 })
 
+// returns user profile info
 app.get("/api/userinfo",(req,res) => {
     const strQuery = "SELECT * FROM tblUserInfo LIMIT 1"
     dbResume.all(strQuery,[],function(err,rows){
@@ -48,6 +53,7 @@ app.get("/api/userinfo",(req,res) => {
     })
 })
 
+// saves or updates user profile info
 app.post("/api/userinfo",(req,res) => {
     let strFirstName = req.body.firstname ? req.body.firstname : ""
     let strLastName = req.body.lastname ? req.body.lastname : ""
@@ -70,6 +76,7 @@ app.post("/api/userinfo",(req,res) => {
     let blnError = false
     let strMessage = ''
 
+    // checks for required fields
     if(strFirstName.length < 1){
         blnError = true
         strMessage += 'You must provide a first name. '
@@ -79,6 +86,7 @@ app.post("/api/userinfo",(req,res) => {
         strMessage += 'You must provide a last name. '
     }
 
+    // checks if user exists to update or insert new
     if(blnError == false){
         dbResume.all("SELECT * FROM tblUserInfo",[],function(err,rows){
             if(rows.length > 0){
@@ -107,6 +115,7 @@ app.post("/api/userinfo",(req,res) => {
     }
 })
 
+// returns all jobs
 app.get("/api/jobs",(req,res) => {
     const strQuery = "SELECT * FROM tblJobs"
     dbResume.all(strQuery,[],function(err,rows){
@@ -118,6 +127,7 @@ app.get("/api/jobs",(req,res) => {
     })
 })
 
+// adds a new job
 app.post("/api/jobs",(req,res) => {
     let strCompany = req.body.company ? req.body.company : ""
     let strTitle = req.body.title ? req.body.title : ""
@@ -133,6 +143,7 @@ app.post("/api/jobs",(req,res) => {
     let blnError = false
     let strMessage = ''
 
+    // checks for required fields
     if(strCompany.length < 1){
         blnError = true
         strMessage += 'You must provide a company. '
@@ -146,6 +157,7 @@ app.post("/api/jobs",(req,res) => {
         strMessage += 'You must provide a start date. '
     }
 
+    // checks blnError before inserting job
     if(blnError == false){
         let strJobID = uuidv4()
         const strQuery = "INSERT INTO tblJobs VALUES (?,?,?,?,?,?)"
@@ -161,6 +173,7 @@ app.post("/api/jobs",(req,res) => {
     }
 })
 
+// deletes a job and its details
 app.delete("/api/jobs/:jobid",(req,res) => {
     let strJobID = req.params.jobid
 
@@ -181,6 +194,7 @@ app.delete("/api/jobs/:jobid",(req,res) => {
     })
 })
 
+// returns details for a specific job
 app.get("/api/jobdetails/:jobid",(req,res) => {
     let strJobID = req.params.jobid
     const strQuery = "SELECT * FROM tblJobDetails WHERE JobID = ?"
@@ -193,6 +207,7 @@ app.get("/api/jobdetails/:jobid",(req,res) => {
     })
 })
 
+// adds a detail to a job
 app.post("/api/jobdetails",(req,res) => {
     let strJobID = req.body.jobid ? req.body.jobid : ""
     let strDescription = req.body.description ? req.body.description : ""
@@ -227,6 +242,7 @@ app.post("/api/jobdetails",(req,res) => {
     }
 })
 
+// deletes a job detail
 app.delete("/api/jobdetails/:detailid",(req,res) => {
     let strDetailID = req.params.detailid
     const strQuery = "DELETE FROM tblJobDetails WHERE DetailID = ?"
@@ -239,6 +255,7 @@ app.delete("/api/jobdetails/:detailid",(req,res) => {
     })
 })
 
+// returns all skills
 app.get("/api/skills",(req,res) => {
     const strQuery = "SELECT * FROM tblSkills"
     dbResume.all(strQuery,[],function(err,rows){
@@ -250,6 +267,7 @@ app.get("/api/skills",(req,res) => {
     })
 })
 
+// adds a new skill
 app.post("/api/skills",(req,res) => {
     let strCategory = req.body.category ? req.body.category : ""
     let strSkillName = req.body.skillname ? req.body.skillname : ""
@@ -280,6 +298,7 @@ app.post("/api/skills",(req,res) => {
     }
 })
 
+// deletes a skill
 app.delete("/api/skills/:skillid",(req,res) => {
     let strSkillID = req.params.skillid
     const strQuery = "DELETE FROM tblSkills WHERE SkillID = ?"
@@ -292,6 +311,7 @@ app.delete("/api/skills/:skillid",(req,res) => {
     })
 })
 
+// returns all certifications
 app.get("/api/certifications",(req,res) => {
     const strQuery = "SELECT * FROM tblCertifications"
     dbResume.all(strQuery,[],function(err,rows){
@@ -303,6 +323,7 @@ app.get("/api/certifications",(req,res) => {
     })
 })
 
+// adds a new certification
 app.post("/api/certifications",(req,res) => {
     let strCertName = req.body.certname ? req.body.certname : ""
     let strIssuer = req.body.issuer ? req.body.issuer : ""
@@ -335,6 +356,7 @@ app.post("/api/certifications",(req,res) => {
     }
 })
 
+// deletes a certification
 app.delete("/api/certifications/:certid",(req,res) => {
     let strCertID = req.params.certid
     const strQuery = "DELETE FROM tblCertifications WHERE CertID = ?"
@@ -347,6 +369,7 @@ app.delete("/api/certifications/:certid",(req,res) => {
     })
 })
 
+// returns all awards
 app.get("/api/awards",(req,res) => {
     const strQuery = "SELECT * FROM tblAwards"
     dbResume.all(strQuery,[],function(err,rows){
@@ -358,6 +381,7 @@ app.get("/api/awards",(req,res) => {
     })
 })
 
+// adds a new award
 app.post("/api/awards",(req,res) => {
     let strAwardName = req.body.awardname ? req.body.awardname : ""
     let strIssuer = req.body.issuer ? req.body.issuer : ""
@@ -390,6 +414,7 @@ app.post("/api/awards",(req,res) => {
     }
 })
 
+// deletes an award
 app.delete("/api/awards/:awardid",(req,res) => {
     let strAwardID = req.params.awardid
     const strQuery = "DELETE FROM tblAwards WHERE AwardID = ?"
@@ -402,6 +427,7 @@ app.delete("/api/awards/:awardid",(req,res) => {
     })
 })
 
+// returns a setting by key
 app.get("/api/settings/:key",(req,res) => {
     let strKey = req.params.key
     const strQuery = "SELECT * FROM tblSettings WHERE SettingKey = ?"
@@ -414,6 +440,7 @@ app.get("/api/settings/:key",(req,res) => {
     })
 })
 
+// saves or updates a setting
 app.post("/api/settings",(req,res) => {
     let strKey = req.body.key ? req.body.key : ""
     let strValue = req.body.value ? req.body.value : ""
@@ -436,6 +463,7 @@ app.post("/api/settings",(req,res) => {
     })
 })
 
+// sends text to gemini api for ai suggestions
 app.post("/api/gemini",(req,res) => {
     let strText = req.body.text ? req.body.text : ""
     let strType = req.body.type ? req.body.type : "general"
@@ -447,6 +475,7 @@ app.post("/api/gemini",(req,res) => {
         return
     }
 
+    // checks .env first, then database for api key
     let strApiKey = process.env.GEMINI_API_KEY || ""
 
     dbResume.all("SELECT * FROM tblSettings WHERE SettingKey = 'gemini_api_key'",[],function(err,rows){
@@ -459,6 +488,7 @@ app.post("/api/gemini",(req,res) => {
             return
         }
 
+        // builds prompt based on type
         let strPrompt = ""
         if(strType == "job"){
             strPrompt = "You are a professional resume writer. Review this job responsibility/detail and suggest improvements to make it more impactful for a resume. Use strong action verbs and quantify results where possible. Keep it to one concise bullet point. Only return the improved text, nothing else. Here is the text: " + strText
@@ -494,6 +524,7 @@ app.post("/api/gemini",(req,res) => {
     })
 })
 
+// returns all resume data for building the resume
 app.get("/api/resume",(req,res) => {
     let objResume = {}
 
