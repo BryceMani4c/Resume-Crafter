@@ -1,0 +1,98 @@
+.resume-page {
+    background: white;
+    max-width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto;
+    padding: 0.75in 1in;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-family: 'Georgia', serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #222;
+}
+
+.resume-page h1 {
+    font-size: 22pt;
+    margin-bottom: 2px;
+    color: #1a1a1a;
+}
+
+.resume-page .resume-contact {
+    font-size: 10pt;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+.resume-page h2 {
+    font-size: 13pt;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid #333;
+    padding-bottom: 3px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    color: #1a1a1a;
+}
+
+.resume-page h3 {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.resume-page .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.resume-page .job-date {
+    font-style: italic;
+    font-size: 10pt;
+    color: #555;
+    white-space: nowrap;
+}
+
+.resume-page ul {
+    margin: 4px 0 8px 0;
+    padding-left: 20px;
+}
+
+.resume-page li {
+    margin-bottom: 2px;
+    font-size: 10.5pt;
+}
+
+.resume-page .skill-category {
+    margin-bottom: 4px;
+}
+
+.resume-page .skill-category strong,
+.resume-page .skill-category span {
+    font-size: 10.5pt;
+}
+
+@media print {
+    body {
+        background: white !important;
+    }
+    .navbar, .no-print, .card, h2.mb-3, .container.mt-4.mb-5 > *:not(#sectionResume) {
+        display: none !important;
+    }
+    #sectionResume {
+        display: block !important;
+    }
+    #divResumePreview {
+        display: block !important;
+    }
+    .resume-page {
+        box-shadow: none;
+        margin: 0;
+        padding: 0.5in 0.75in;
+        max-width: none;
+        min-height: auto;
+    }
+    #sectionResume .card {
+        display: none !important;
+    }
+}
